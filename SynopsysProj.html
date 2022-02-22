@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+<body>
+<script type="module">
+ // Import the functions you need from the SDKs you need
+ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+ // TODO: Add SDKs for Firebase products that you want to use
+ // https://firebase.google.com/docs/web/setup#available-libraries
+ import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+ // Your web app's Firebase configuration
+ const firebaseConfig = {
+   apiKey: "AIzaSyDA2q0v1gt98r_duKco4no_wh10GLyap54",
+   authDomain: "synopsys-project-2021-22.firebaseapp.com",
+   projectId: "synopsys-project-2021-22",
+   storageBucket: "synopsys-project-2021-22.appspot.com",
+   messagingSenderId: "537625064376",
+   appId: "1:537625064376:web:15bf238c8a6b1e036d954d"
+ };
+
+ const database = getDatabase();
+ const reference = ref;
+ const value = onValue;
+
+ // Initialize Firebase
+ const app = initializeApp(firebaseConfig);
+</script>
+<div id="map" style = "width:700px; height:500px;"></div>
+<!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3175.268036095325!2d-122.08196168456928!3d37.26507064909256!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb4ab0b84a4b3%3A0xe8fa937b1cd33aa6!2sMount%20Eden%20Vineyards!5e0!3m2!1sen!2sus!4v1639358681391!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe> -->
+
+<script type="text/javascript">
+var mapProp;
+
+function initMap() {
+mapProp = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 0, lng: 0 },
+    zoom: 5,
+  });
+const updatedRef = reference(database, "Marker Location/");
+value(updatedRef, (snapshot) => {
+const data = snapshot.val();
+for(var key in data) {
+console.log(key)
+var value = data[key];
+placeMarker(mapProp, new google.maps.LatLng(double(key), double(value)), "green");
+}
+});
+}
+function placeMarker(map, location, state) {
+var url = "http://maps.google.com/mapfiles/ms/icons/";
+url += state+"-dot.png";
+var marker = new google.maps.Marker({
+position: location,
+map: map,
+icon: {
+url: url,
+}
+});
+var window = new google.maps.InfoWindow({
+content: "latitude: " + location.lat() + "<br> longitude: " + location.lng()
+});
+window.open(map, marker)
+}
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8nxDDKxERrXebxG8FkDf_Xr5yUeBEd4A&callback=initMap"></script>
+</body>
+</html>
